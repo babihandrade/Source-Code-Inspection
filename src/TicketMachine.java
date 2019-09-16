@@ -40,27 +40,27 @@ public class TicketMachine {
      */
     public void inserir(int quantia) throws PapelMoedaInvalidaException {
         //mensagem do caso de uso CSU01 - Ação do Sistema 2 implementada
-        try{
-        System.out.println("Por favor, aguarde alguns instantes...");
+        try {
+            System.out.println("Por favor, aguarde alguns instantes...");
 
-        boolean achou = false;
-        
-        for (int i = 0; i < papelMoeda.length && !achou; i++) {
-            //comparação alterada de 1 para i, pois ele só aceitaria notas de 5, posição 1 no array
-            if (papelMoeda[i] == quantia) {
-                achou = true;
-                //incremento agora realizado dentro da validação
-                this.saldo += quantia;
-                //ação do sistema 5 do CSU01 implementada
-                System.out.println("Nota de papel aceita!");
+            boolean achou = false;
+
+            for (int i = 0; i < papelMoeda.length && !achou; i++) {
+                //comparação alterada de 1 para i, pois ele só aceitaria notas de 5, posição 1 no array
+                if (papelMoeda[i] == quantia) {
+                    achou = true;
+                    //incremento agora realizado dentro da validação
+                    this.saldo += quantia;
+                    //ação do sistema 5 do CSU01 implementada
+                    System.out.println("Nota de papel aceita!");
+                }
             }
-        }
-        if (!achou) {
-            throw new PapelMoedaInvalidaException();
-        }
-        }catch(Exception e){
-        System.err.println(e.getMessage());
-        
+            if (!achou) {
+                throw new PapelMoedaInvalidaException();
+            }
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+
         }
         //this.saldo += quantia; Se o incremento ocorrer aqui, mesmo que a nota seja
         //inválida, o saldo será contabilizado.
@@ -76,7 +76,26 @@ public class TicketMachine {
     /**
      * Método não implementado! o mesmo retorna NULL! [INICIALIZAÇÃO]
      */
-    public Iterator<Integer> getTroco() {
+    public String getTroco() throws SaldoInsuficienteException {
+        
+    PapelMoeda[] p = new PapelMoeda[6];
+    p[0] = new PapelMoeda(2,0);
+    p[1] = new PapelMoeda(5,0);
+    p[2] = new PapelMoeda(10,0);
+    p[3] = new PapelMoeda(20,0);
+    p[4] = new PapelMoeda(50,0);
+    p[5] = new PapelMoeda(100,0);
+    
+    Troco t = new Troco(p,saldo);
+    t.calculaTroco();
+     TrocoIterator ti = new TrocoIterator(t);
+     
+        for (PapelMoeda papeisMoeda : ti.troco.papeisMoeda) {
+            if (papeisMoeda.getQuantidade() != 0) {
+            return "Nota: "+papeisMoeda.getValor()+"\nQuantidade: " 
+            + papeisMoeda.getQuantidade();
+            }
+        }
         return null;
     }
 
@@ -85,7 +104,7 @@ public class TicketMachine {
      * [COMPUTAÇÃO]
      */
     //função de verificação de saldo implementada
-    public boolean verificarSaldo(){
+    public boolean verificarSaldo() {
         boolean saldoSuficiente;
         if (saldo < valor) {
             saldoSuficiente = false;
@@ -95,12 +114,12 @@ public class TicketMachine {
         return saldoSuficiente;
     }
 
-    public String imprimir() throws SaldoInsuficienteException  {
-        if(verificarSaldo()){
+    public String imprimir() throws SaldoInsuficienteException {
+        if (verificarSaldo()) {
             //caso de uso não previa o débito do valor do bilhete
             saldo = (saldo - valor);
-        }else{
-        throw new SaldoInsuficienteException();
+        } else {
+            throw new SaldoInsuficienteException();
         }
         String result = "*****************\n";
         result += "*** R$ " + saldo + ",00 ****\n";
