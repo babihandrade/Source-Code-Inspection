@@ -1,4 +1,7 @@
 
+import br.ticketmachine.exception.SaldoInsuficienteException;
+
+
 /**
  *
  * @author Calebe de Paula Bianchini

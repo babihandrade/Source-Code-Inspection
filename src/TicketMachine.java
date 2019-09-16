@@ -1,4 +1,6 @@
 
+import br.ticketmachine.exception.SaldoInsuficienteException;
+import br.ticketmachine.exception.PapelMoedaInvalidaException;
 import java.util.Iterator;
 
 /**
