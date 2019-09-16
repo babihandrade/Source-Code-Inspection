@@ -17,7 +17,8 @@ public class PapelMoeda {
      */
     private int valor; //visibilidade alterada de protected para private
     private int quantidade; //visibilidade alterada de protected para private
- 
+
+    
     public PapelMoeda(int valor, int quantidade) {
         this.valor = valor;
         this.quantidade = quantidade;
